@@ -47,10 +47,14 @@ Motif 'CG' found at positions: [5, 12]
 
 ## Functions
 1 - validate_sequence(sequence) > Validates if the sequence contains only valid DNA nucleotides (A, T, G, C).
-3 - calculate_gc_content(dna_sequence) > Calculates the percentage of G and C in the DNA sequence.
-4 - reverse_complement(dna_sequence) > Returns the reverse complement of the DNA sequence.
-5 - find_motif(dna_sequence, motif) > Searches for all occurrences of the motif in the DNA sequence.
-6 - sequence_statistics(dna_sequence) > Returns a dictionary containing various statistics about the DNA sequence.
+
+2 - calculate_gc_content(dna_sequence) > Calculates the percentage of G and C in the DNA sequence.
+
+3 - reverse_complement(dna_sequence) > Returns the reverse complement of the DNA sequence.
+
+4 - find_motif(dna_sequence, motif) > Searches for all occurrences of the motif in the DNA sequence.
+
+5 - sequence_statistics(dna_sequence) > Returns a dictionary containing various statistics about the DNA sequence.
 
 ## Contributing
 Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
