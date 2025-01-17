@@ -3,7 +3,7 @@
 [![Python 3.6+](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Tests](https://github.com/yourusername/DNASequenceAnalysisTool/workflows/Tests/badge.svg)](https://github.com/yourusername/DNASequenceAnalysisTool/actions)
+[![Tests](https://github.com/YanCotta/DNASequenceAnalysisTool/workflows/Tests/badge.svg)](https://github.com/YanCotta/DNASequenceAnalysisTool/actions)
 
 A high-performance Python library for comprehensive DNA sequence analysis, providing industrial-grade molecular biology and bioinformatics capabilities.
 
@@ -27,6 +27,27 @@ A high-performance Python library for comprehensive DNA sequence analysis, provi
   - Enhanced sequence metrics
   - Performance-optimized algorithms
 
+## 📁 Project Structure
+
+```
+dna_sequence_analysis_tool/
+├── core/                     # Core analysis functionality
+│   ├── __init__.py
+│   ├── main.py              # Main interface and toolkit
+│   ├── sequence_analysis.py  # Advanced analysis algorithms
+│   ├── sequence_statistics.py# Statistical calculations
+│   ├── sequence_transformation.py # DNA/RNA transformations
+│   └── sequence_validation.py# Sequence validation utilities
+├── data/                    # Data handling and sample sequences
+│   ├── __init__.py
+│   └── sample_sequence.py   # Pre-defined test sequences
+├── utils/                   # Utility functions
+│   ├── __init__.py
+│   ├── file_io.py          # FASTA file handling
+│   └── logging.py          # Logging configuration
+└── tests/                   # Test suite (coming in v2.1)
+```
+
 ## 📋 Requirements
 
 - Python 3.6+
@@ -44,7 +65,7 @@ pip install dna-sequence-analysis
 conda install -c bioconda dna-sequence-analysis
 
 # Development installation
-git clone https://github.com/yourusername/DNASequenceAnalysisTool.git
+git clone https://github.com/YanCotta/DNASequenceAnalysisTool.git
 cd DNASequenceAnalysisTool
 pip install -e .
 ```
@@ -52,7 +73,7 @@ pip install -e .
 ## 🎯 Quick Start
 
 ```python
-from dna_analysis import DNASequence
+from dna_sequence_analysis_tool import DNASequence
 
 # Initialize with your sequence
 seq = DNASequence("ATGGCCATTGTAATGGGCCGCTGAAAGGGTGCCCGATAG")
@@ -140,6 +161,118 @@ class DNASequence:
   - Melting temperature
   - Molecular weight
 
+## 🔬 Component Details
+
+### Core Package (`core/`)
+
+#### `main.py`
+- `DNAToolkit` class: Primary interface for DNA analysis
+- Comprehensive sequence analysis pipeline
+- Integrated logging and error handling
+
+#### `sequence_analysis.py`
+- Advanced sequence analysis algorithms
+- ORF detection and promoter prediction
+- Local and global sequence alignment
+- Repeat sequence analysis
+
+#### `sequence_statistics.py`
+- GC content calculation
+- Melting temperature analysis
+- Nucleotide frequency statistics
+- Parallel processing for large sequences
+
+#### `sequence_transformation.py`
+- DNA/RNA transcription
+- Protein translation
+- Sequence complementation
+- Codon optimization
+
+#### `sequence_validation.py`
+- Robust sequence validation
+- Multiple sequence format support
+- IUPAC nucleotide validation
+- Reading frame validation
+
+### Data Package (`data/`)
+
+#### `sample_sequence.py`
+- Pre-defined test sequences
+- Common genetic elements
+- FASTA file loading
+- Sequence validation integration
+
+### Utils Package (`utils/`)
+
+#### `file_io.py`
+- FASTA file reading/writing
+- Sequence format conversion
+- Error handling and logging
+- File validation
+
+#### `logging.py`
+- Centralized logging configuration
+- Debug and error tracking
+- Operation monitoring
+- Performance logging
+
+## 🎯 Usage Examples
+
+### Basic Sequence Analysis
+```python
+from dna_sequence_analysis_tool import DNAToolkit
+
+# Initialize toolkit
+toolkit = DNAToolkit()
+
+# Analyze sequence
+sequence = "ATGGCCATTGTAATGGGCCGCTGAAAGGGTGCCCGATAG"
+results = toolkit.analyze_sequence(sequence)
+
+# Access results
+print(f"GC Content: {results.gc_content}%")
+print(f"Molecular Weight: {results.molecular_weight}")
+```
+
+### File Operations
+```python
+from dna_sequence_analysis_tool.utils.file_io import read_fasta, write_fasta
+
+# Read sequences from FASTA
+sequences = read_fasta("sequences.fasta")
+
+# Process and write results
+write_fasta(sequences, "processed_sequences.fasta")
+```
+
+### Advanced Analysis
+```python
+from dna_sequence_analysis_tool.core.sequence_analysis import AdvancedSequenceAnalyzer
+
+# Initialize analyzer
+analyzer = AdvancedSequenceAnalyzer()
+
+# Predict promoter regions
+promoters = analyzer.predict_promoter_regions(sequence)
+
+# Analyze repeats
+repeats = analyzer.analyze_repeats(sequence)
+```
+
+## 🔧 Configuration
+
+### Logging Configuration
+```python
+from dna_sequence_analysis_tool.utils.logging import logger
+
+# Set custom log level
+logger.setLevel(logging.DEBUG)
+
+# Add custom handler
+handler = logging.FileHandler('analysis.log')
+logger.addHandler(handler)
+```
+
 ## 🧪 Testing
 
 ```bash
@@ -160,14 +293,21 @@ We welcome contributions!
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+## 📊 Performance Optimizations
+
+- Cached sequence validation
+- Parallel processing for large sequences
+- Memory-efficient data structures
+- Optimized algorithms for common operations
+
 ## 📦 Performance
 
-| Operation | Time Complexity | Space Complexity |
-|-----------|----------------|------------------|
-| Sequence Validation | O(n) | O(1) |
-| GC Content | O(n) | O(1) |
-| ORF Detection | O(n) | O(n) |
-| Sequence Alignment | O(mn) | O(mn) |
+| Operation           | Time Complexity | Space Complexity |
+|---------------------|------------------|------------------|
+| Sequence Validation | O(n)             | O(1)             |
+| GC Content          | O(n)             | O(1)             |
+| ORF Detection       | O(n)             | O(n)             |
+| Sequence Alignment  | O(mn)            | O(mn)            |
 
 ## 📜 License
 
@@ -179,12 +319,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 - **Email**: yanpcotta@gmail.com
 - **Issues**: [GitHub Issues](https://github.com/YanCotta/DNASequenceAnalysisTool/issues)
 
-## 🌟 Acknowledgments
-
-- BioPython community
-- Python Bioinformatics Working Group
-- Our fantastic contributors
-
 ---
 
 <div align="center">
@@ -193,7 +327,7 @@ Made with ❤️ for the bioinformatics community
 
 # Changelog
 
-## DNA Sequence Analysis Tool v2.0
+## DNA Sequence Analysis Tool v2.5
 ### Added
 - Advanced ORF detection system
 - Enhanced melting temperature calculations
@@ -208,3 +342,10 @@ Made with ❤️ for the bioinformatics community
 - Enhanced error handling
 - Updated example usage
 - Optimized sequence processing
+
+## DNA Sequence Analysis Tool v3.0 (Future Release)
+### Planned
+- Functional testing suite with comprehensive test cases
+- Continuous Integration setup for automated testing
+- Expanded API documentation with examples
+- Integration with additional bioinformatics tools
