@@ -44,7 +44,7 @@ dna_sequence_analysis_tool/
 │   ├── __init__.py
 │   ├── file_io.py          # FASTA file handling
 │   └── logging.py          # Logging configuration
-└── tests/                   # Test suite (coming in v2.1)
+└── tests/                   # Test suite (coming in v3.0)
 ```
 
 ## 📋 Requirements
