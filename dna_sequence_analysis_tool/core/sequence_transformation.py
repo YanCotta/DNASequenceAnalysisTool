@@ -61,7 +61,7 @@ class SequenceTransformer:
     @staticmethod
     def translate(rna_sequence: str, genetic_code: Dict[str, str] = None) -> str:
         """Enhanced translation with custom genetic code support."""
-        is_valid, error_msg = validate_sequence(rna_sequence, 'RNA')
+        is_valid, error_msg = validate_rna_sequence(rna_sequence)
         if not is_valid:
             raise ValueError(error_msg)
         

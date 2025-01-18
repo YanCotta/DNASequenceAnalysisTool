@@ -326,7 +326,7 @@ Made with ❤️ for the bioinformatics community
 
 # Changelog
 
-## DNA Sequence Analysis Tool v2.5
+## DNA Sequence Analysis Tool v2.7
 ### Added
 - Advanced ORF detection system
 - Enhanced melting temperature calculations
@@ -348,3 +348,5 @@ Made with ❤️ for the bioinformatics community
 - Continuous Integration setup for automated testing
 - Expanded API documentation with examples
 - Integration with additional bioinformatics tools
+- Fix error during test: 
+    "File "c:\Users\T-GAMER\Desktop\GitHub\DNASequenceAnalysisTool\dna_sequence_analysis_tool\core\__init__.py", line 6, in <module> from .sequence_validation import validate_sequence, validate_rna_sequence ImportError: cannot import name 'validate_rna_sequence' from 'dna_sequence_analysis_tool.core.sequence_validation' (c:\Users\T-GAMER\Desktop\GitHub\DNASequenceAnalysisTool\dna_sequence_analysis_tool\core\sequence_validation.py)"
