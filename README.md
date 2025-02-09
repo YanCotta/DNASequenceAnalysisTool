@@ -1,10 +1,38 @@
-# DNA Sequence Analysis Tool 🧬
+<div align="center">
+
+# 🧬 DNA Sequence Analysis Tool
+
+A high-performance Python library for comprehensive DNA sequence analysis
 
 [![Python 3.6+](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Documentation Status](https://readthedocs.org/projects/dna-sequence-analysis/badge/?version=latest)](https://dna-sequence-analysis.readthedocs.io/)
+[![PyPI version](https://badge.fury.io/py/dna-sequence-analysis.svg)](https://badge.fury.io/py/dna-sequence-analysis)
+[![Downloads](https://pepy.tech/badge/dna-sequence-analysis)](https://pepy.tech/project/dna-sequence-analysis)
 
-A high-performance Python library for comprehensive DNA sequence analysis, providing industrial-grade molecular biology and bioinformatics capabilities.
+</div>
+
+---
+
+## 📑 Table of Contents
+- [Key Features](#-key-features)
+- [Project Structure](#-project-structure)
+- [Requirements](#-requirements)
+- [Installation](#-quick-installation)
+- [Quick Start](#-quick-start)
+- [API Documentation](#-api-documentation)
+- [Component Details](#-component-details)
+- [Usage Examples](#-usage-examples)
+- [Configuration](#-configuration)
+- [Testing](#-testing)
+- [Contributing](#-contributing)
+- [Performance](#-performance)
+- [License](#-license)
+- [Contact & Support](#-contact--support)
+- [Changelog](#-changelog)
+
+---
 
 ## 🚀 Key Features
 
@@ -28,6 +56,9 @@ A high-performance Python library for comprehensive DNA sequence analysis, provi
 
 ## 📁 Project Structure
 
+<details>
+<summary>Click to expand project tree</summary>
+
 ```
 dna_sequence_analysis_tool/
 ├── core/                     # Core analysis functionality
@@ -47,6 +78,8 @@ dna_sequence_analysis_tool/
 └── tests/                   # Test suite (coming in v3.0)
 ```
 
+</details>
+
 ## 📋 Requirements
 
 - Python 3.6+
@@ -55,6 +88,9 @@ dna_sequence_analysis_tool/
 - pandas >= 1.2.0
 
 ## ⚡️ Quick Installation
+
+<details>
+<summary>Choose your installation method</summary>
 
 ```bash
 # Via pip
@@ -68,6 +104,8 @@ git clone https://github.com/YanCotta/DNASequenceAnalysisTool.git
 cd DNASequenceAnalysisTool
 pip install -e .
 ```
+
+</details>
 
 ## 🎯 Quick Start
 
@@ -292,37 +330,33 @@ We welcome contributions!
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📊 Performance Optimizations
+## 📊 Performance
 
-- Cached sequence validation
-- Parallel processing for large sequences
-- Memory-efficient data structures
-- Optimized algorithms for common operations
-
-## 📦 Performance
+<details>
+<summary>View performance metrics</summary>
 
 | Operation           | Time Complexity | Space Complexity |
-|---------------------|------------------|------------------|
+|:-------------------|:---------------:|:----------------:|
 | Sequence Validation | O(n)             | O(1)             |
 | GC Content          | O(n)             | O(1)             |
 | ORF Detection       | O(n)             | O(n)             |
 | Sequence Alignment  | O(mn)            | O(mn)            |
 
-## 📜 License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
-## 📫 Contact & Support
-
-- **Author**: Yan Cotta
-- **Email**: yanpcotta@gmail.com
-- **Issues**: [GitHub Issues](https://github.com/YanCotta/DNASequenceAnalysisTool/issues)
+</details>
 
 ---
 
 <div align="center">
+
+### 🌟 Star us on GitHub if this tool helps your research! 
+
+[<img src="https://img.shields.io/github/stars/YanCotta/DNASequenceAnalysisTool?style=social" alt="GitHub stars">](https://github.com/YanCotta/DNASequenceAnalysisTool)
+
 Made with ❤️ for the bioinformatics community
+
 </div>
+
+---
 
 # Changelog
 
