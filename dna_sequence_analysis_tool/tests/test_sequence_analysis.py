@@ -8,6 +8,13 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../.
 from dna_sequence_analysis_tool.core.sequence_analysis import SequenceAnalyzer, AdvancedSequenceAnalyzer, AnalysisError, AdvancedAnalysisParameters
 
 class TestSequenceAnalyzer(unittest.TestCase):
+    def setUp(self):
+        self.stats = SequenceStatistics()
+
+    def test_gc_content_calculation(self):
+        sequence = "GCTA"
+        result = self.stats.get_comprehensive_stats(sequence)
+        self.assertEqual(result['gc_content'], 50.0)
 
     def test_find_orfs(self):
         sequence = "ATGAAATAGATGCCCTAA"
