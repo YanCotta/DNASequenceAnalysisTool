@@ -9,8 +9,21 @@ from .sequence_transformation import SequenceTransformer
 from ..utils.logging import logger
 
 class AnalysisError(Exception):
-    """Custom exception for analysis errors."""
-    pass
+    def __init__(self, message: str, sequence: str = None):
+        self.sequence = sequence
+        super().__init__(f"Analysis Error: {message}")
+
+@staticmethod
+def find_orfs(sequence: str, min_length: int = 30) -> List[Tuple[int, str, int]]:
+    try:
+        is_valid, error_msg = validate_sequence(sequence)
+        if not is_valid:
+            raise AnalysisError(error_msg, sequence)
+        # ... rest of the code
+    except Exception as e:
+        logger.error(f"ORF finding failed: {str(e)}")
+        raise AnalysisError(str(e), sequence)
+
 
 @lru_cache(maxsize=128)
 def cached_analysis(sequence: str) -> Dict[str, Any]:
