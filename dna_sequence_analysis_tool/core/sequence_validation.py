@@ -1,6 +1,7 @@
 """Sequence validation utilities."""
 
 from typing import Tuple, Set
+from typing import Optional
 from dataclasses import dataclass
 from ..utils.logging import logger
 
@@ -40,3 +41,12 @@ def validate_sequence_pair(seq1: str, seq2: str) -> Tuple[bool, str]:
 def validate_reading_frame(sequence: str) -> Tuple[bool, str]:
     # Implementation for validating reading frame
     pass
+
+def validate_sequence_length(sequence: str, min_length: Optional[int] = None, 
+                        max_length: Optional[int] = None) -> Tuple[bool, str]:
+    """Add sequence length validation."""
+    if min_length and len(sequence) < min_length:
+        return False, f"Sequence length {len(sequence)} below minimum {min_length}"
+    if max_length and len(sequence) > max_length:
+        return False, f"Sequence length {len(sequence)} above maximum {max_length}"
+    return True, ""
