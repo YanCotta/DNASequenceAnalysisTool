@@ -125,7 +125,12 @@ class AnalysisParameters:
     ALIGNMENT_MISMATCH_SCORE: float = -1.0
 
 class SequenceAnalyzer:
-    """Advanced sequence analysis tools."""
+    @staticmethod
+    @lru_cache(maxsize=128)
+    def _find_pattern_positions(sequence: str, pattern: str) -> List[int]:
+        """Cache pattern search results for better performance."""
+        return [i for i in range(len(sequence) - len(pattern) + 1)
+                if sequence[i:i+len(pattern)] == pattern]
     
     @staticmethod
     def find_orfs(sequence: str, min_length: int = AnalysisParameters.MIN_ORF_LENGTH) -> List[Tuple[int, str, int]]:
