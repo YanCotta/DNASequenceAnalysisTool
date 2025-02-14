@@ -35,8 +35,17 @@ class GeneticCode:
     STOP_CODONS: List[str] = ['UAA', 'UAG', 'UGA']
 
 class SequenceTransformer:
-    """Enhanced sequence transformation with better error handling."""
+    """
+    Handles DNA/RNA sequence transformations.
     
+    Attributes:
+        None
+    
+    Methods:
+        reverse_complement: Returns reverse complement of DNA sequence
+        transcribe: Converts DNA to RNA
+        translate: Converts RNA to protein sequence
+    """
     @staticmethod
     def reverse_complement(sequence: str) -> str:
         """Returns reverse complement with enhanced validation."""
