@@ -374,6 +374,38 @@ Made with ❤️ for the bioinformatics community
 - Updated example usage
 - Optimized sequence processing
 
+## DNA Sequence Analysis Tool v2.8 (Latest)
+### Added
+- Graceful fallback for operations when NumPy/SciPy are not available
+- Enhanced error handling and validation across all modules
+- Memory-efficient sequence processing with caching
+- Improved logging system with configurable output
+- Added molecular weight calculations
+- Added sequence complexity analysis
+- Implemented affine gap penalties in sequence alignment
+
+### Changed
+- Optimized GC content calculation
+- Improved TATA box prediction algorithm
+- Enhanced repeat sequence detection
+- Better integration between basic and advanced analyzers
+- More robust sequence validation
+- Updated dependencies to latest stable versions
+
+### Fixed
+- Fixed dependency management in setup.py and requirements.txt
+- Resolved numpy/scipy import issues
+- Improved error messages and exception handling
+- Fixed memory leaks in sequence analysis
+- Corrected molecular weight calculations
+
+### Technical Improvements
+- Added type hints throughout the codebase
+- Improved test coverage
+- Better documentation and code organization
+- Memory optimizations for large sequences
+- Performance improvements in core algorithms
+
 ## DNA Sequence Analysis Tool v3.0 (Future Release)
 ### Planned
 #### Testing:
