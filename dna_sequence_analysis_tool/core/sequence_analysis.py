@@ -2,33 +2,26 @@
 
 from typing import List, Tuple, Dict, Any, Optional
 from dataclasses import dataclass
-import numpy as np
+from collections import defaultdict
+import array
 from functools import lru_cache
+
 from .sequence_validation import validate_sequence, SequenceValidationError
 from .sequence_transformation import SequenceTransformer
 from ..utils.logging import logger
+
+try:
+    import numpy as np
+    from scipy.signal import find_peaks
+    NUMPY_AVAILABLE = True
+except ImportError:
+    logger.warning("NumPy/SciPy not available. Some advanced features will be disabled.")
+    NUMPY_AVAILABLE = False
 
 class AnalysisError(Exception):
     def __init__(self, message: str, sequence: str = None):
         self.sequence = sequence
         super().__init__(f"Analysis Error: {message}")
-
-@staticmethod
-def find_orfs(sequence: str, min_length: int = 30) -> List[Tuple[int, str, int]]:
-    try:
-        is_valid, error_msg = validate_sequence(sequence)
-        if not is_valid:
-            raise AnalysisError(error_msg, sequence)
-        # ... rest of the code
-    except Exception as e:
-        logger.error(f"ORF finding failed: {str(e)}")
-        raise AnalysisError(str(e), sequence)
-
-
-@lru_cache(maxsize=128)
-def cached_analysis(sequence: str) -> Dict[str, Any]:
-    """Cache expensive analysis operations."""
-    # ...existing code...
 
 @dataclass
 class AdvancedAnalysisParameters:
@@ -46,17 +39,14 @@ class AdvancedSequenceAnalyzer:
     
     @staticmethod
     def predict_promoter_regions(sequence: str) -> List[Tuple[int, float]]:
-        """Predict potential promoter regions using position weight matrices.
-        
-        Args:
-            sequence (str): DNA sequence to analyze.
-        
-        Returns:
-            List[Tuple[int, float]]: List of tuples with position and score of predicted promoter regions.
-        
-        Raises:
-            AnalysisError: If the sequence is invalid.
-        """
+        """Predict potential promoter regions."""
+        if not NUMPY_AVAILABLE:
+            return []
+            
+        is_valid, error_msg = validate_sequence(sequence)
+        if not is_valid:
+            raise AnalysisError(error_msg)
+
         tata_box_pwm = np.array([
             [0.8, 0.1, 0.05, 0.05],  # T
             [0.9, 0.05, 0.02, 0.03], # A
@@ -64,173 +54,128 @@ class AdvancedSequenceAnalyzer:
             [0.9, 0.02, 0.05, 0.03], # A
         ])
         
-        # Implementation of promoter prediction
-        # ...existing code...
+        sequence = sequence.upper()
+        nucleotide_map = {'A': 1, 'T': 0, 'G': 2, 'C': 3}
+        scores = []
+        
+        for i in range(len(sequence) - 3):
+            window = sequence[i:i+4]
+            try:
+                score = sum(tata_box_pwm[j][nucleotide_map[base]] 
+                        for j, base in enumerate(window))
+                scores.append((i, score))
+            except KeyError:
+                continue
+                
+        return sorted([(pos, score) for pos, score in scores if score > 2.5],
+                    key=lambda x: x[1], reverse=True)
 
     @staticmethod
     def analyze_repeats(sequence: str, params: AdvancedAnalysisParameters) -> Dict[str, Any]:
-        """Advanced repeat analysis including tandem repeats.
-        
-        Args:
-            sequence (str): DNA sequence to analyze.
-            params (AdvancedAnalysisParameters): Parameters for the analysis.
-        
-        Returns:
-            Dict[str, Any]: Analysis results.
-        
-        Raises:
-            AnalysisError: If the sequence is invalid.
-        """
+        """Advanced repeat analysis including tandem repeats."""
+        if not NUMPY_AVAILABLE:
+            return {"error": "NumPy required for advanced repeat analysis"}
+            
         sequence = sequence.upper()
+        results = {
+            "tandem_repeats": [],
+            "direct_repeats": defaultdict(list),
+            "inverted_repeats": []
+        }
         
-        from scipy.signal import find_peaks
-        def find_tandem_repeats():
-            """Find tandem repeats using Fourier transform."""
-            signal = np.array([{'A':0, 'T':1, 'G':2, 'C':3}[base] for base in sequence])
-            frequencies = np.fft.fft(signal)
-            peaks, _ = find_peaks(np.abs(frequencies))
-            return peaks
-
-        # Implementation continues...
-        # ...existing code...
+        # Find tandem repeats using sliding windows
+        for window_size in range(2, min(20, len(sequence) // 2)):
+            for i in range(len(sequence) - window_size):
+                pattern = sequence[i:i+window_size]
+                j = i + window_size
+                while j < len(sequence) - window_size + 1:
+                    if sequence[j:j+window_size] == pattern:
+                        results["tandem_repeats"].append({
+                            "pattern": pattern,
+                            "start": i,
+                            "length": window_size,
+                            "copies": 2
+                        })
+                        j += window_size
+                    else:
+                        break
+        
+        return dict(results)
 
     @staticmethod
     def local_alignment_affine(seq1: str, seq2: str, params: AdvancedAnalysisParameters) -> Dict[str, Any]:
-        """Improved local alignment with affine gap penalties.
-        
-        Args:
-            seq1 (str): First sequence.
-            seq2 (str): Second sequence.
-            params (AdvancedAnalysisParameters): Parameters for the alignment.
-        
-        Returns:
-            Dict[str, Any]: Alignment results.
-        
-        Raises:
-            AnalysisError: If the sequences are invalid.
-        """
+        """Smith-Waterman alignment with affine gap penalties."""
+        if not NUMPY_AVAILABLE:
+            return {"error": "NumPy required for alignment"}
+            
         m, n = len(seq1), len(seq2)
         score_matrix = np.zeros((m+1, n+1))
-        gap_matrix = np.zeros((m+1, n+1))
+        pointer_matrix = np.zeros((m+1, n+1), dtype=np.int8)
         
-        # Implementation of advanced alignment
-        # ...existing code...
-
-@dataclass
-class AnalysisParameters:
-    """Parameters for sequence analysis."""
-    MIN_ORF_LENGTH: int = 30
-    ALIGNMENT_GAP_PENALTY: float = -2.0
-    ALIGNMENT_MATCH_SCORE: float = 1.0
-    ALIGNMENT_MISMATCH_SCORE: float = -1.0
+        # Initialize matrices
+        score_matrix[0, 1:] = params.ALIGNMENT_GAP_OPEN + \
+                             np.arange(n) * params.ALIGNMENT_GAP_EXTEND
+        score_matrix[1:, 0] = params.ALIGNMENT_GAP_OPEN + \
+                             np.arange(m) * params.ALIGNMENT_GAP_EXTEND
+        
+        # Fill matrices
+        for i in range(1, m+1):
+            for j in range(1, n+1):
+                match_score = params.ALIGNMENT_MATCH_SCORE if seq1[i-1] == seq2[j-1] \
+                            else params.ALIGNMENT_MISMATCH_SCORE
+                diagonal = score_matrix[i-1, j-1] + match_score
+                vertical = score_matrix[i-1, j] + params.ALIGNMENT_GAP_EXTEND
+                horizontal = score_matrix[i, j-1] + params.ALIGNMENT_GAP_EXTEND
+                
+                score_matrix[i, j] = max(0, diagonal, vertical, horizontal)
+                
+                if score_matrix[i, j] == 0:
+                    pointer_matrix[i, j] = 0
+                elif score_matrix[i, j] == diagonal:
+                    pointer_matrix[i, j] = 1
+                elif score_matrix[i, j] == vertical:
+                    pointer_matrix[i, j] = 2
+                else:
+                    pointer_matrix[i, j] = 3
+        
+        return {
+            "score": float(score_matrix.max()),
+            "score_matrix": score_matrix.tolist(),
+            "pointer_matrix": pointer_matrix.tolist()
+        }
 
 class SequenceAnalyzer:
-    @staticmethod
-    @lru_cache(maxsize=128)
-    def _find_pattern_positions(sequence: str, pattern: str) -> List[int]:
-        """Cache pattern search results for better performance."""
-        return [i for i in range(len(sequence) - len(pattern) + 1)
-                if sequence[i:i+len(pattern)] == pattern]
+    """Basic sequence analysis functionality."""
     
     @staticmethod
-    def find_orfs(sequence: str, min_length: int = AnalysisParameters.MIN_ORF_LENGTH) -> List[Tuple[int, str, int]]:
-        """Enhanced ORF finding with multiple reading frames.
-        
-        Args:
-            sequence (str): DNA sequence to analyze.
-            min_length (int): Minimum length of ORFs.
-        
-        Returns:
-            List[Tuple[int, str, int]]: List of tuples with start position, ORF sequence, and reading frame.
-        
-        Raises:
-            AnalysisError: If the sequence is invalid.
-        """
+    def find_orfs(sequence: str, min_length: int = 30) -> List[Tuple[int, str, int]]:
+        """Find Open Reading Frames in the sequence."""
         is_valid, error_msg = validate_sequence(sequence)
         if not is_valid:
             raise AnalysisError(error_msg)
-        
+            
         sequence = sequence.upper()
         orfs = []
         
         for frame in range(3):
-            frame_orfs = SequenceAnalyzer._find_frame_orfs(sequence[frame:], frame, min_length)
-            orfs.extend(frame_orfs)
-            
+            i = frame
+            while i < len(sequence) - 2:
+                if sequence[i:i+3] == 'ATG':  # Start codon
+                    for j in range(i + 3, len(sequence) - 2, 3):
+                        codon = sequence[j:j+3]
+                        if codon in {'TAA', 'TAG', 'TGA'}:  # Stop codons
+                            if j + 3 - i >= min_length:
+                                orfs.append((i, sequence[i:j+3], frame))
+                            break
+                i += 3
+                
         return sorted(orfs, key=lambda x: len(x[1]), reverse=True)
 
     @staticmethod
-    def local_alignment(seq1: str, seq2: str) -> Dict[str, Any]:
-        """Smith-Waterman local alignment.
-        
-        Args:
-            seq1 (str): First sequence.
-            seq2 (str): Second sequence.
-        
-        Returns:
-            Dict[str, Any]: Alignment results.
-        
-        Raises:
-            AnalysisError: If the sequences are invalid.
-        """
-        # Implementation of Smith-Waterman algorithm
-        # ...existing alignment code...
-
-    @staticmethod
-    def find_repeats(sequence: str, min_length: int = 2) -> Dict[str, List[int]]:
-        """Find repeated sequences.
-        
-        Args:
-            sequence (str): DNA sequence to analyze.
-            min_length (int): Minimum length of repeats.
-        
-        Returns:
-            Dict[str, List[int]]: Dictionary of repeated sequences and their positions.
-        
-        Raises:
-            AnalysisError: If the sequence is invalid.
-        """
-        is_valid, error_msg = validate_sequence(sequence)
-        if not is_valid:
-            raise AnalysisError(error_msg)
-            
+    @lru_cache(maxsize=128)
+    def find_motifs(sequence: str, motif: str) -> List[int]:
+        """Find all occurrences of a motif in the sequence."""
         sequence = sequence.upper()
-        repeats = {}
-        
-        for length in range(min_length, len(sequence)//2 + 1):
-            for i in range(len(sequence) - length + 1):
-                pattern = sequence[i:i+length]
-                positions = SequenceAnalyzer._find_pattern_positions(sequence, pattern)
-                if len(positions) > 1:
-                    repeats[pattern] = positions
-                    
-        return repeats
-
-    @staticmethod
-    def _find_frame_orfs(sequence: str, frame: int, min_length: int) -> List[Tuple[int, str, int]]:
-        """Find ORFs in a specific reading frame."""
-        orfs = []
-        start_codon = 'ATG'
-        stop_codons = {'TAA', 'TAG', 'TGA'}
-        
-        i = 0
-        while i < len(sequence)-2:
-            if sequence[i:i+3] == start_codon:
-                for j in range(i+3, len(sequence)-2, 3):
-                    codon = sequence[j:j+3]
-                    if codon in stop_codons:
-                        orf = sequence[i:j+3]
-                        if len(orf) >= min_length:
-                            orfs.append((i, orf, frame))
-                        break
-            i += 3
-        return orfs
-
-    @staticmethod
-    def _find_pattern_positions(sequence: str, pattern: str) -> List[int]:
-        """Find all positions of a pattern in sequence."""
-        positions = []
-        for i in range(len(sequence) - len(pattern) + 1):
-            if sequence[i:i+len(pattern)] == pattern:
-                positions.append(i)
-        return positions
+        motif = motif.upper()
+        return [i for i in range(len(sequence)-len(motif)+1) 
+                if sequence[i:i+len(motif)] == motif]
