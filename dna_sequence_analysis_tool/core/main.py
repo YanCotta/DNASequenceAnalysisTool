@@ -1,13 +1,19 @@
 """Main module for DNA sequence analysis toolkit."""
 
 from typing import Tuple, List, Dict, Optional, Union
-import numpy as np
 from dataclasses import dataclass
 from functools import lru_cache
+
+try:
+    import numpy as np
+    NUMPY_AVAILABLE = True
+except ImportError:
+    NUMPY_AVAILABLE = False
+
 from .sequence_validation import validate_sequence
 from .sequence_statistics import SequenceStatistics
 from .sequence_transformation import SequenceTransformer
-from .sequence_analysis import AdvancedSequenceAnalyzer
+from .sequence_analysis import AdvancedSequenceAnalyzer, SequenceAnalyzer
 from ..utils.logging import logger
 
 @dataclass
@@ -26,7 +32,8 @@ class DNAToolkit:
     def __init__(self):
         self.stats = SequenceStatistics()
         self.transformer = SequenceTransformer()
-        self.analyzer = AdvancedSequenceAnalyzer()
+        self.basic_analyzer = SequenceAnalyzer()
+        self.advanced_analyzer = AdvancedSequenceAnalyzer()
     
     @staticmethod
     @lru_cache(maxsize=1024)
@@ -36,27 +43,40 @@ class DNAToolkit:
 
     def analyze_sequence(self, sequence: str, window_size: Optional[int] = None) -> DNAStats:
         """Comprehensive sequence analysis."""
-        is_valid, error_msg = self.validate_sequence(sequence)
-        if not is_valid:
-            raise ValueError(error_msg)
+        try:
+            is_valid, error_msg = self.validate_sequence(sequence)
+            if not is_valid:
+                raise ValueError(error_msg)
+                
+            basic_stats = self.stats.get_comprehensive_stats(sequence)
             
-        basic_stats = self.stats.get_comprehensive_stats(sequence)
-        repeats = self.analyzer.analyze_repeats(sequence, window_size or 50)
-        complexity = self.stats._calculate_complexity(sequence)
-        
-        return DNAStats(
-            length=len(sequence),
-            gc_content=basic_stats['gc_content'],
-            nucleotide_counts=basic_stats['nucleotide_counts'],
-            complexity=complexity,
-            repeats=repeats,
-            molecular_weight=basic_stats['molecular_weight']
-        )
+            # Basic repeats using SequenceAnalyzer if numpy is not available
+            if not NUMPY_AVAILABLE:
+                repeats = {motif: positions for motif, positions 
+                        in self.basic_analyzer.find_repeats(sequence).items()}
+            else:
+                repeats = self.advanced_analyzer.analyze_repeats(
+                    sequence, 
+                    window_size or 50
+                ).get("direct_repeats", {})
+            
+            complexity = self.stats._calculate_complexity(sequence)
+            
+            return DNAStats(
+                length=len(sequence),
+                gc_content=basic_stats['gc_content'],
+                nucleotide_counts=basic_stats['nucleotide_counts'],
+                complexity=complexity,
+                repeats=repeats,
+                molecular_weight=basic_stats['molecular_weight']
+            )
+            
+        except Exception as e:
+            logger.error(f"Error analyzing sequence: {str(e)}")
+            raise
 
 def main():
-    """
-    Demonstrates the DNA sequence analysis toolkit functionality.
-    """
+    """Demonstrates the DNA sequence analysis toolkit functionality."""
     try:
         toolkit = DNAToolkit()
         sample_dna = "AGCTATCGGCTAGCG"
@@ -84,7 +104,7 @@ def main():
                 logger.info(f"  {pattern}: {positions}")
         
     except ValueError as e:
-        logger.error(f"Error: {e}")
+        logger.error(f"Validation error: {e}")
     except Exception as e:
         logger.error(f"An unexpected error occurred: {e}")
 
