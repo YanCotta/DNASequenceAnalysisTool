@@ -1,6 +1,25 @@
+# Core dependencies
 numpy>=1.19.0
 scipy>=1.5.0
 biopython>=1.78
 pandas>=1.2.0
+
+# CLI and user interface
+click>=8.0.0
+rich>=10.0.0
+
+# Visualization
+matplotlib>=3.3.0
+plotly>=5.0.0
+
+# Development and testing
 pytest>=6.0.0
 pytest-cov>=2.0.0
+black>=21.0
+mypy>=0.900
+flake8>=3.9.0
+
+# Optional dependencies (for additional functionality)
+# - For handling compressed files:
+python-magic>=0.4.24
+python-magic-bin>=0.4.14; platform_system=="Windows"
