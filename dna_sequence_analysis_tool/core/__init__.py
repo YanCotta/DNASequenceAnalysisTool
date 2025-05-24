@@ -14,11 +14,14 @@ Key Features:
     - High-performance implementations for large sequences
 
 Example:
-    >>> from dna_sequence_analysis_tool import DNAToolkit
-    >>> toolkit = DNAToolkit()
-    >>> analysis = toolkit.analyze_sequence("ATGCGATCGATCGATCGATCG")
-    >>> print(f"GC Content: {analysis.gc_content:.2f}%")
+    >>> from dna_sequence_analysis_tool.core import SequenceAnalyzer
+    >>> analyzer = SequenceAnalyzer()
+    >>> result = analyzer.analyze("ATGCGATCGATCGATCGATCG")
+    >>> print(f"GC Content: {result['gc_content']:.2f}%")
 """
+
+from typing import Dict, List, Optional, Tuple, Union, Any
+from pathlib import Path
 
 # Custom exceptions
 class DNAToolkitError(Exception):
