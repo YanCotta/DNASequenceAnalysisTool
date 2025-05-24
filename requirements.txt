@@ -4,6 +4,10 @@ scipy>=1.5.0
 biopython>=1.78
 pandas>=1.2.0
 
+# Configuration and logging
+pydantic>=1.8.0
+pyyaml>=5.4.1
+
 # CLI and user interface
 click>=8.0.0
 rich>=10.0.0
@@ -11,13 +15,6 @@ rich>=10.0.0
 # Visualization
 matplotlib>=3.3.0
 plotly>=5.0.0
-
-# Development and testing
-pytest>=6.0.0
-pytest-cov>=2.0.0
-black>=21.0
-mypy>=0.900
-flake8>=3.9.0
 
 # Optional dependencies (for additional functionality)
 # - For handling compressed files:
