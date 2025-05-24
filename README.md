@@ -1,34 +1,285 @@
 # 🧬 DNA Sequence Analysis Tool
 
-A high-performance Python library and command-line tool for comprehensive DNA/RNA sequence analysis with advanced visualization capabilities.
+[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Tests](https://github.com/YanCotta/DNASequenceAnalysisTool/actions/workflows/tests.yml/badge.svg)](https://github.com/YanCotta/DNASequenceAnalysisTool/actions/workflows/tests.yml)
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Documentation](https://img.shields.io/badge/Documentation-Read%20the%20Docs-blue)](https://dna-sequence-analysis-tool.readthedocs.io/)
-[![Tests](https://github.com/YanCotta/DNASequenceAnalysisTool/actions/workflows/tests.yml/badge.svg)](https://github.com/YanCotta/DNASequenceAnalysisTool/actions)
-[![Codecov](https://codecov.io/gh/YanCotta/DNASequenceAnalysisTool/branch/main/graph/badge.svg)](https://codecov.io/gh/YanCotta/DNASequenceAnalysisTool)
-
-A comprehensive Python toolkit for DNA sequence analysis, manipulation, and visualization.
-
----
+A high-performance Python library and command-line tool for comprehensive DNA/RNA sequence analysis with advanced visualization capabilities. This toolkit is designed for both bioinformaticians and molecular biologists, providing a robust set of tools for sequence analysis, manipulation, and visualization.
 
 ## 📑 Table of Contents
 
-- [Key Features](#-key-features)
-- [Project Structure](#-project-structure)
-- [Requirements](#-requirements)
-- [Installation](#-quick-installation)
-- [Quick Start](#-quick-start)
-- [API Documentation](#-api-documentation)
-- [Component Details](#-component-details)
-- [Usage Examples](#-usage-examples)
-- [Configuration](#-configuration)
-- [Testing](#-testing)
-- [Contributing](#-contributing)
-- [Performance](#-performance)
-- [License](#-license)
-- [Contact & Support](#-contact--support)
-- [Changelog](#-changelog)
+- [✨ Key Features](#-key-features)
+- [🏗️ Project Structure](#-project-structure)
+- [📋 Requirements](#-requirements)
+- [🚀 Installation](#-installation)
+- [⚡ Quick Start](#-quick-start)
+- [📚 Usage Examples](#-usage-examples)
+- [⚙️ Configuration](#-configuration)
+- [📖 Documentation](#-documentation)
+- [🤝 Contributing](#-contributing)
+- [🧪 Testing](#-testing)
+- [📄 License](#-license)
+- [📜 Changelog](#-changelog)
+
+## ✨ Key Features
+
+### Sequence Analysis
+
+- GC content calculation
+- Melting temperature prediction
+- Molecular weight calculation
+- Sequence validation and sanitization
+- Motif finding and pattern matching
+- ORF (Open Reading Frame) detection
+
+### Sequence Manipulation
+
+- Reverse complement generation
+- Transcription and translation
+- Sequence alignment
+- Primer design
+- Restriction site analysis
+
+### File I/O Support
+
+- FASTA/FASTQ format support
+- GZIP/BZ2 compression support
+- Batch processing of multiple files
+- Stream processing for large files
+- Configurable output formats
+- Parallel processing options
+
+### Visualization
+
+- GC content plots
+- Sequence logos
+- Restriction maps
+- Interactive sequence viewers
+
+### Command-Line Interface
+
+- User-friendly command-line tools
+- Batch processing support
+- Configurable output formats
+- Parallel processing options
+  - User-friendly command-line tools
+  - Batch processing support
+  - Configurable output formats
+  - Parallel processing options
+
+## 🏗️ Project Structure
+
+```text
+DNASequenceAnalysisTool/
+├── dna_sequence_analysis_tool/     # Main package
+│   ├── core/                      # Core functionality
+│   │   ├── __init__.py
+│   │   ├── sequence_analysis.py   # Sequence analysis functions
+│   │   ├── sequence_io.py         # File I/O operations
+│   │   ├── sequence_validation.py # Sequence validation
+│   │   ├── sequence_statistics.py # Statistical analysis
+│   │   ├── sequence_transformation.py # Sequence manipulation
+│   │   └── visualization.py       # Visualization tools
+│   ├── data/                      # Sample data
+│   │   ├── __init__.py
+│   │   └── sample_sequence.py     # Sample sequences
+│   ├── tests/                     # Test suite
+│   │   ├── __init__.py
+│   │   └── test_sequence_analysis.py
+│   ├── utils/                     # Utility functions
+│   │   ├── __init__.py
+│   │   └── file_io.py
+│   ├── __init__.py
+│   ├── cli.py                     # Command-line interface
+│   ├── config.py                  # Configuration settings
+│   ├── exceptions.py              # Custom exceptions
+│   └── logging_config.py          # Logging configuration
+├── examples/                      # Example scripts
+│   ├── basic_sequence_analysis.py
+│   ├── file_io_and_visualization.py
+│   └── README.md
+├── .gitignore
+├── CHANGELOG.md
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── MANIFEST.in
+├── Makefile
+├── pyproject.toml
+├── requirements-dev.txt
+├── requirements.txt
+└── setup.py
+```
+
+## 📋 Requirements
+
+- Python 3.8+
+- Dependencies are listed in `requirements.txt`
+
+### Core Dependencies
+
+- NumPy >= 1.19.0
+- SciPy >= 1.5.0
+- Biopython >= 1.78
+- pandas >= 1.2.0
+- pydantic >= 1.8.0
+- pyyaml >= 5.4.1
+- click >= 8.0.0
+- rich >= 10.0.0
+- matplotlib >= 3.3.0
+- plotly >= 5.0.0
+
+## 💻 Installation
+
+### From PyPI (recommended)
+
+```bash
+pip install dna-sequence-analysis-tool
+```
+
+### From Source
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/YanCotta/DNASequenceAnalysisTool.git
+   cd DNASequenceAnalysisTool
+   ```
+
+2. Install with pip in development mode:
+   ```bash
+   pip install -e .
+   ```
+
+### Development Setup
+
+1. Install development dependencies:
+   ```bash
+   pip install -r requirements-dev.txt
+   ```
+
+2. Set up pre-commit hooks:
+   ```bash
+   pre-commit install
+   ```
+
+## 🚀 Quick Start
+
+### Python API
+
+```python
+from dna_sequence_analysis_tool import DNASequence, DNAToolkit
+
+# Create a DNA sequence
+sequence = DNASequence("ATGGCCATTGTAATGGGCCGCTGAAAGGGTGCCCGATAG", "example_sequence")
+
+# Get sequence information
+print(f"Sequence ID: {sequence.id}")
+print(f"Length: {sequence.length} bp")
+print(f"GC content: {sequence.gc_content:.2f}%")
+
+# Get reverse complement
+rev_comp = sequence.reverse_complement()
+print(f"Reverse complement: {rev_comp}")
+
+# Find motifs
+motif = "GGC"
+positions = sequence.find_motif(motif)
+print(f"Motif '{motif}' found at positions: {positions}")
+
+# Analyze with toolkit
+toolkit = DNAToolkit()
+tm = toolkit.calculate_melting_temperature(sequence.sequence)
+print(f"Melting temperature: {tm:.2f}°C")
+```
+
+### Command Line Interface
+
+```bash
+# Analyze a sequence file
+dnatool analyze sequences.fasta --output results.csv
+
+# Generate a GC content plot
+dnatool plot-gc sequences.fasta --output gc_plot.png
+
+# Find ORFs in a sequence
+dnatool find-orfs sequence.fasta --min-length 100
+
+# Get help
+dnatool --help
+```
+
+## 🔧 Configuration
+
+The tool can be configured using a YAML configuration file located at `~/.dna_sequence_analysis/config.yaml`.
+
+Example configuration:
+
+```yaml
+# General settings
+log_level: INFO
+max_sequence_length: 10000000
+
+# File I/O settings
+default_input_format: fasta
+default_output_format: fasta
+auto_detect_format: true
+
+# Performance settings
+chunk_size: 10000
+max_workers: 4
+
+# Visualization settings
+plot_theme: default
+default_figure_size: [10, 6]
+```
+
+## 📚 Documentation
+
+Comprehensive documentation is available at [Read the Docs](https://dna-sequence-analysis-tool.readthedocs.io/).
+
+To build the documentation locally:
+
+```bash
+cd docs
+make html
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please see our [Contributing Guide](CONTRIBUTING.md) for details on how to contribute to this project.
+
+## 🧪 Testing
+
+Run the test suite with:
+
+```bash
+pytest
+```
+
+For test coverage report:
+
+```bash
+pytest --cov=dna_sequence_analysis_tool --cov-report=term-missing
+```
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📝 Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a history of changes to this project.
+
+## 📬 Contact & Support
+
+For support or questions, please open an issue on [GitHub](https://github.com/YanCotta/DNASequenceAnalysisTool/issues).
+
+---
+
+```
+Made with ❤️ by the DNA Sequence Analysis Tool contributors
+```
 
 ---
 
