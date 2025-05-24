@@ -1,19 +1,19 @@
-<div align="center">
-
 # 🧬 DNA Sequence Analysis Tool
 
-A high-performance Python library for comprehensive DNA sequence analysis
+A high-performance Python library and command-line tool for comprehensive DNA/RNA sequence analysis with advanced visualization capabilities.
 
-[![Python 3.6+](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Documentation Status](https://readthedocs.org/projects/dna-sequence-analysis/badge/?version=latest)](https://dna-sequence-analysis.readthedocs.io/)
-[![PyPI version](https://badge.fury.io/py/dna-sequence-analysis.svg)](https://badge.fury.io/py/dna-sequence-analysis)
-</div>
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Documentation](https://img.shields.io/badge/Documentation-Read%20the%20Docs-blue)](https://dna-sequence-analysis-tool.readthedocs.io/)
+[![Tests](https://github.com/YanCotta/DNASequenceAnalysisTool/actions/workflows/tests.yml/badge.svg)](https://github.com/YanCotta/DNASequenceAnalysisTool/actions)
+[![Codecov](https://codecov.io/gh/YanCotta/DNASequenceAnalysisTool/branch/main/graph/badge.svg)](https://codecov.io/gh/YanCotta/DNASequenceAnalysisTool)
+
+A comprehensive Python toolkit for DNA sequence analysis, manipulation, and visualization.
 
 ---
 
 ## 📑 Table of Contents
+
 - [Key Features](#-key-features)
 - [Project Structure](#-project-structure)
 - [Requirements](#-requirements)
@@ -32,103 +32,124 @@ A high-performance Python library for comprehensive DNA sequence analysis
 
 ---
 
-## 🚀 Key Features
+## 🌟 Features
 
-- **Sequence Validation & Analysis**
-  - Robust DNA/RNA sequence validation
-  - Advanced GC content analysis
-  - Comprehensive nucleotide statistics
-  - Pattern recognition and motif finding
+### Sequence Analysis
 
-- **Molecular Biology Tools**
-  - DNA ↔ RNA transcription
-  - Codon-optimized protein translation
-  - Sophisticated ORF detection
-  - Advanced melting temperature calculations
+- GC content calculation
+- Melting temperature prediction
+- ORF detection and analysis
+- Nucleotide composition analysis
+- Pattern recognition and motif finding
 
-- **Bioinformatics Capabilities**
-  - Local sequence alignment
-  - Global sequence alignment scoring
-  - Enhanced sequence metrics
-  - Performance-optimized algorithms
+### Molecular Biology Tools
 
-## 📁 Project Structure
+- DNA/RNA transcription
+- Codon-optimized protein translation
+- Sophisticated ORF detection
+- Advanced melting temperature calculations
 
-<details>
-<summary>Click to expand project tree</summary>
+### File I/O Support
 
-```
+- FASTA/FASTQ format support
+- GZIP/BZIP2 compression
+- Batch processing capabilities
+- Format conversion utilities
+
+### Visualization
+
+- GC content plots
+- Sequence logos
+- Multiple sequence alignments
+- Interactive visualizations
+
+### Command Line Interface
+
+- Intuitive command structure
+- Batch processing support
+- Multiple output formats (text, JSON, CSV)
+- Visualization export to image files
+
+---
+
+## 🏗️ Project Structure
+
+```text
 dna_sequence_analysis_tool/
-├── core/                     # Core analysis functionality
+├── core/
 │   ├── __init__.py
-│   ├── main.py              # Main interface and toolkit
-│   ├── sequence_analysis.py  # Advanced analysis algorithms
-│   ├── sequence_statistics.py# Statistical calculations
-│   ├── sequence_transformation.py # DNA/RNA transformations
-│   └── sequence_validation.py# Sequence validation utilities
-├── data/                    # Data handling and sample sequences
-│   ├── __init__.py
-│   └── sample_sequence.py   # Pre-defined test sequences
-├── utils/                   # Utility functions
-│   ├── __init__.py
-│   ├── file_io.py          # FASTA file handling
-│   └── logging.py          # Logging configuration
-└── tests/                   # Test suite (coming in v3.0)
+│   ├── sequence_analysis.py
+│   ├── sequence_validation.py
+│   └── visualization.py
+├── data/
+│   └── sample_sequences.fasta
+├── utils/
+│   ├── file_io.py
+│   └── logging.py
+├── tests/
+│   ├── test_sequence_analysis.py
+│   └── test_validation.py
+├── cli.py
+├── README.md
+└── requirements.txt
 ```
-
-</details>
 
 ## 📋 Requirements
 
-- Python 3.6+
+- Python 3.8+
+
+### Core Dependencies
+
 - NumPy >= 1.19.0
+- SciPy >= 1.5.0
 - Biopython >= 1.78
 - pandas >= 1.2.0
+- matplotlib >= 3.3.0 (for visualization)
+- click >= 8.0.0 (for CLI)
+- rich >= 10.0.0 (for rich CLI output)
+- plotly >= 5.0.0 (for interactive visualizations)
 
-## ⚡️ Quick Installation
+### Optional Dependencies
 
-<details>
-<summary>Choose your installation method</summary>
+- python-magic (for file type detection)
+- python-magic-bin (Windows only, for file type detection)
+
+## 📦 Installation
 
 ```bash
-# Via pip
-pip install dna-sequence-analysis
+# Install from PyPI
+pip install dna-sequence-analysis-tool
 
-# Via conda
-conda install -c bioconda dna-sequence-analysis
-
-# Development installation
+# Install from source
 git clone https://github.com/YanCotta/DNASequenceAnalysisTool.git
 cd DNASequenceAnalysisTool
 pip install -e .
 ```
 
-</details>
+---
 
-## 🎯 Quick Start
+## 🔍 Quick Start
 
 ```python
-from dna_sequence_analysis_tool import DNASequence
+from dna_sequence_analysis_tool import DNAToolkit
 
-# Initialize with your sequence
-seq = DNASequence("ATGGCCATTGTAATGGGCCGCTGAAAGGGTGCCCGATAG")
+# Initialize toolkit
+toolkit = DNAToolkit()
 
-# Basic analysis
-print(f"GC Content: {seq.gc_content:.2f}%")
-print(f"Molecular Weight: {seq.molecular_weight:.2f} Da")
-print(f"Melting Temperature: {seq.melting_temp:.1f}°C")
-
-# Advanced features
-orfs = seq.find_orfs(min_length=30)
-proteins = seq.translate()
-alignments = seq.align_with("ATGGCCATTGTAATG")
+# Analyze a sequence
+sequence = "ATGGCCATTGTAATGGGCCGCTGAAAGGGTGCCCGATAG"
+result = toolkit.analyze_sequence(sequence)
+print(f"GC Content: {result.gc_content}%")
 ```
 
-## 📘 API Documentation
+---
+
+## 📊 API Documentation
 
 ### Core Classes
 
-#### `DNASequence`
+#### DNASequence
+
 ```python
 class DNASequence:
     """
@@ -143,19 +164,23 @@ class DNASequence:
 
 ### Basic Functions
 
-#### `validate_sequence(sequence)`
+#### validate_sequence(sequence)
+
 - Validates DNA sequences (A, T, G, C)
 - Returns: (bool, str) - validity status and error message
 
-#### `calculate_gc_content(dna_sequence)`
+#### calculate_gc_content(dna_sequence)
+
 - Calculates GC content percentage
 - Raises ValueError for invalid sequences
 
-#### `reverse_complement(dna_sequence)`
+#### reverse_complement(dna_sequence)
+
 - Generates reverse complement of DNA sequence
 - Returns: String of complementary sequence
 
-#### `find_motif(dna_sequence, motif)`
+#### find_motif(dna_sequence, motif)
+
 - Finds all occurrences of a motif
 - Returns: List of starting positions (0-based)
 
@@ -204,74 +229,103 @@ class DNASequence:
 - `DNAToolkit` class: Primary interface for DNA analysis
 - Comprehensive sequence analysis pipeline
 - Integrated logging and error handling
+- Sequence manipulation and transformation methods
 
 #### `sequence_analysis.py`
 - Advanced sequence analysis algorithms
 - ORF detection and promoter prediction
 - Local and global sequence alignment
 - Repeat sequence analysis
+- Motif finding and pattern matching
 
-#### `sequence_statistics.py`
-- GC content calculation
-- Melting temperature analysis
-- Nucleotide frequency statistics
-- Parallel processing for large sequences
-
-#### `sequence_transformation.py`
-- DNA/RNA transcription
-- Protein translation
-- Sequence complementation
-- Codon optimization
+#### `sequence_io.py`
+- Reading and writing FASTA/FASTQ files
+- Support for gzip and bzip2 compression
+- Automatic format detection
+- Sequence validation during I/O operations
 
 #### `sequence_validation.py`
-- Robust sequence validation
-- Multiple sequence format support
-- IUPAC nucleotide validation
-- Reading frame validation
+- Sequence validation for DNA/RNA
+- Support for ambiguous bases
+- Configurable validation rules
+- Detailed error reporting
 
-### Data Package (`data/`)
+#### `visualization.py`
+- GC content plots
+- Sequence logos
+- Multiple sequence alignment visualization
+- Interactive plots with Plotly
+- Export to various image formats
 
-#### `sample_sequence.py`
-- Pre-defined test sequences
-- Common genetic elements
-- FASTA file loading
-- Sequence validation integration
+#### `sequence_statistics.py`
+- Sequence complexity measures
+- Nucleotide frequency analysis
+- Statistical significance calculations
+- Sequence similarity metrics
 
-### Utils Package (`utils/`)
+### Command Line Interface (`cli.py`)
+- Interactive command-line interface
+- Support for batch processing
+- Rich text formatting and progress bars
+- Multiple output formats (text, JSON, CSV)
+- Integrated help system
 
-#### `file_io.py`
-- FASTA file reading/writing
-- Sequence format conversion
-- Error handling and logging
-- File validation
+## 📊 Visualization Examples
 
-#### `logging.py`
-- Centralized logging configuration
-- Debug and error tracking
-- Operation monitoring
-- Performance logging
+### GC Content Plot
 
-## 🎯 Usage Examples
-
-### Basic Sequence Analysis
 ```python
-from dna_sequence_analysis_tool import DNAToolkit
+from dna_sequence_analysis_tool.visualization import plot_gc_content
 
-# Initialize toolkit
-toolkit = DNAToolkit()
-
-# Analyze sequence
 sequence = "ATGGCCATTGTAATGGGCCGCTGAAAGGGTGCCCGATAG"
-results = toolkit.analyze_sequence(sequence)
-
-# Access results
-print(f"GC Content: {results.gc_content}%")
-print(f"Molecular Weight: {results.molecular_weight}")
+fig = plot_gc_content(sequence, window_size=10, step_size=1)
+fig.savefig("gc_content.png")
 ```
 
-### File Operations
+### Sequence Logo
+
 ```python
-from dna_sequence_analysis_tool.utils.file_io import read_fasta, write_fasta
+from dna_sequence_analysis_tool.visualization import plot_sequence_logo
+
+sequences = ["ATCG", "ATTA", "ATGC", "ATAA"]
+fig = plot_sequence_logo(sequences)
+fig.savefig("sequence_logo.png")
+```
+
+### Multiple Sequence Alignment
+
+```python
+from dna_sequence_analysis_tool.visualization import plot_alignment
+
+alignment = [
+    "ATCGATCGAT",
+    "AT-GATCGAT",
+    "ATCGAT---T",
+    "ATCGATCGAT"
+]
+
+fig = plot_alignment(alignment, title="Multiple Sequence Alignment")
+fig.savefig("alignment.png")
+```
+
+## 🛠️ Command Line Interface
+
+The DNA Sequence Analysis Tool comes with a powerful command-line interface for batch processing and automation:
+
+### Basic Usage
+
+```bash
+# Analyze a single sequence file
+dna-tool analyze sequences.fasta --output results.json
+
+# Process multiple files in a directory
+dna-tool batch-process input_dir/ --output results/
+
+# Convert between file formats
+dna-tool convert input.fasta --output output.fastq --format fastq
+```
+
+### Available Commands
 
 # Read sequences from FASTA
 sequences = read_fasta("sequences.fasta")
@@ -330,8 +384,7 @@ We welcome contributions!
 
 ## 📊 Performance
 
-<details>
-<summary>View performance metrics</summary>
+### Performance Metrics
 
 | Operation           | Time Complexity | Space Complexity |
 |:-------------------|:---------------:|:----------------:|
@@ -340,39 +393,52 @@ We welcome contributions!
 | ORF Detection       | O(n)             | O(n)             |
 | Sequence Alignment  | O(mn)            | O(mn)            |
 
-</details>
 
 ---
 
-<div align="center">
+---
 
-### 🌟 Star us on GitHub if this tool helps your research! 
+## 🌟 Support This Project
 
-[<img src="https://img.shields.io/github/stars/YanCotta/DNASequenceAnalysisTool?style=social" alt="GitHub stars">](https://github.com/YanCotta/DNASequenceAnalysisTool)
+If you find this tool useful, please consider giving it a ⭐ on [GitHub](https://github.com/YanCotta/DNASequenceAnalysisTool)
 
 Made with ❤️ for the bioinformatics community
 
-</div>
-
 ---
+
+## 📜 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 # Changelog
 
-## DNA Sequence Analysis Tool v2.7
-### Added
-- Advanced ORF detection system
-- Enhanced melting temperature calculations
-- Sequence alignment scoring
-- Comprehensive sequence statistics
-- RNA sequence validation
-- Protein translation features
-- Type hints for all functions
+## 📝 Changelog
 
-### Changed
-- Improved documentation
-- Enhanced error handling
-- Updated example usage
+### [Unreleased]
+
+- Added command-line interface with rich output
+- Enhanced visualization capabilities (GC content, sequence logos, alignments)
+- Improved sequence I/O with gzip/bzip2 compression support
+- Added comprehensive documentation and examples
+- Added support for batch processing of sequence files
+- Implemented multiple output formats (text, JSON, CSV)
+
+### [0.2.0] - 2023-06-15
+
+- Added sequence visualization module with matplotlib and plotly support
+- Implemented FASTA/FASTQ file format support
+- Added sequence validation framework with configurable rules
+- Improved error handling and logging
+- Added support for ambiguous nucleotide codes
+
+### [0.1.0] - 2023-01-01
+
+- Initial release with core DNA/RNA analysis functionality
+- Basic sequence manipulation and analysis tools
+- Comprehensive documentation and examples usage
 - Optimized sequence processing
+
+---
 
 ## DNA Sequence Analysis Tool v2.8 (Latest)
 ### Added
