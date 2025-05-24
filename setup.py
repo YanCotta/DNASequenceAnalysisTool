@@ -1,29 +1,79 @@
 from setuptools import setup, find_packages
+import os
+
+# Read the README for the long description
+with open('README.md', 'r', encoding='utf-8') as f:
+    long_description = f.read()
+
+# Read requirements
+with open('requirements.txt', 'r', encoding='utf-8') as f:
+    requirements = [
+        line.strip() 
+        for line in f.readlines() 
+        if line.strip() and not line.startswith('#') and not line.startswith('-e')
+    ]
+
+# Filter out platform-specific dependencies
+requirements = [
+    req for req in requirements 
+    if ';' not in req or any(platform in req.lower() for platform in ['win', 'linux', 'darwin'])
+]
 
 setup(
     name="dna_sequence_analysis_tool",
-    version="0.1.0",
-    packages=find_packages(),
-    install_requires=[
-        'numpy>=1.19.0',
-        'scipy>=1.5.0',
-        'biopython>=1.78',
-        'pandas>=1.2.0',
-        'pytest>=6.0.0',
-        'pytest-cov>=2.0.0',
-        'matplotlib>=3.3.0',  # For visualization capabilities
-        'seaborn>=0.11.0',   # For enhanced plotting
-    ],
-    python_requires='>=3.7',
+    version="0.2.0",
+    packages=find_packages(exclude=['tests*', 'docs*']),
+    install_requires=requirements,
+    python_requires='>=3.8',
+    
+    # Metadata
     author="Yan Cotta",
+    author_email="your.email@example.com",
     description="A high-performance Python library for comprehensive DNA sequence analysis",
-    long_description=open('README.md').read(),
+    long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/YanCotta/DNASequenceAnalysisTool",
+    project_urls={
+        'Bug Reports': 'https://github.com/YanCotta/DNASequenceAnalysisTool/issues',
+        'Source': 'https://github.com/YanCotta/DNASequenceAnalysisTool',
+    },
+    
+    # Entry points
+    entry_points={
+        'console_scripts': [
+            'dnatool=dna_sequence_analysis_tool.cli:cli',
+        ],
+    },
+    
+    # Additional files
+    package_data={
+        'dna_sequence_analysis_tool': ['data/*.txt', 'data/*.json'],
+    },
+    include_package_data=True,
+    
+    # Classifiers
     classifiers=[
-        "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
-        "Topic :: Scientific/Engineering :: Bio-Informatics",
+        'Development Status :: 4 - Beta',
+        'Intended Audience :: Science/Research',
+        'Topic :: Scientific/Engineering :: Bio-Informatics',
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Operating System :: OS Independent',
+        'Natural Language :: English',
     ],
+    
+    # Keywords
+    keywords=[
+        'bioinformatics', 
+        'dna', 
+        'sequence analysis', 
+        'genomics', 
+        'biotechnology'
+    ],
+    
+    # Other
+    zip_safe=False,
 )
