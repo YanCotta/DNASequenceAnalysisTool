@@ -1,0 +1,23 @@
+# Development and testing
+pytest>=6.0.0
+pytest-cov>=2.0.0
+black>=21.0
+mypy>=0.900
+flake8>=3.9.0
+isort>=5.9.0
+pre-commit>=2.15.0
+
+# Documentation
+sphinx>=4.0.0
+sphinx-rtd-theme>=0.5.0
+
+# For building and testing the package
+build>=0.7.0
+twine>=3.4.0
+
+# For development
+ipython>=7.0.0
+jupyter>=1.0.0
+
+# For testing on different Python versions
+tox>=3.24.0
