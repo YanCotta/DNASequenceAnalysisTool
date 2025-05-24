@@ -1,0 +1,11 @@
+include LICENSE
+include README.md
+include CHANGELOG.md
+include CONTRIBUTING.md
+include requirements*.txt
+recursive-include dna_sequence_analysis_tool/data *
+recursive-include docs *
+recursive-include tests *
+recursive-include examples *
+include pyproject.toml
+include .pre-commit-config.yaml
